@@ -11,9 +11,9 @@ const logger = require('../common/logger')
  * @param {Object} message the kafka message
  * @returns {Promise}
  */
-async function processMessage (message) {
+async function publish (message) {
   const producer = await getKafkaProducer()
-  await producer.send({
+  return await producer.send({
     topic: config.WRITE_TOPIC,
     message: {
       value: JSON.stringify(generateEventMessage(config.WRITE_TOPIC, message.payload))
@@ -21,22 +21,17 @@ async function processMessage (message) {
   })
 }
 
-processMessage.schema = {
+publish.schema = {
   message: Joi.object().keys({
-    topic: Joi.string().required(),
-    originator: Joi.string().required(),
-    timestamp: Joi.date().required(),
-    'mime-type': Joi.string().required(),
     payload: Joi.object().keys({
-      firstName: Joi.string(),
-      lastName: Joi.string(),
-      handle: Joi.string()
+      name: Joi.string(),
+      description: Joi.string()
     }).required().unknown(true)
   }).required()
 }
 
 module.exports = {
-  processMessage
+  publish
 }
 
 logger.buildService(module.exports)

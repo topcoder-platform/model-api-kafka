@@ -1,0 +1,135 @@
+openapi: 3.0.1
+info:
+  title: Topcoder Kafka API Template
+  description: |
+    # Kafka Producer and Consumer
+    Topcoder processes are all event driven. Almost all services generate events that are then published on Kafka - and consumed by other services. Topcoder has the [bus api](https://github.com/topcoder-platform/tc-bus-api) that interfaces with Kafka already - so you would never find yourself creating a Kafka producer to send events in Topcoder's Kafka instance, but you will find uses for Consuming these events from Kafka
+  license:
+    name: MIT
+    url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
+  version: V1
+servers:
+- url: https://api.topcoder.com/v5/model-api/kafka
+- url: https://api.topcoder-dev.com/v5/model-api/kafka
+- url: http://localhost:2004/v5/model-api/kafka
+paths:
+  /health:
+    get:
+      tags:
+      - Health
+      summary: Health check
+      description: Health check
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+  /publish:
+    post:
+      tags:
+      - Publish
+      summary: Publish a new Kafka event
+      description: Publish a new Kafka event for topic 'test.new.bus.events'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishPostRequestBody'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishPostResponseBody'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: body
+  /receive:
+    get:
+      tags:
+      - Receive
+      summary: Check the status of recent Kafka event, recived by the consumer
+      description: Check the status of recent Kafka event for topic 'test.new.bus.events' recived by the consumer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiveGetResponseBody'
+components:
+  schemas:
+    HealthCheckResponse:
+      type: object
+      properties:
+        checksRun:
+          type: number
+    PublishPostResponseBody:
+      type: array
+      items:
+        type: object
+        properties:
+          topic:
+            type: string
+          partition:
+            type: number
+          error:
+            type: string
+          offset:
+            type: number
+    PublishPostRequestBody:
+      type: object
+      properties:
+        payload:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+          example:
+            name: Publish Event Name
+            description: This is event to publish event via TC Bus API
+    ReceiveGetResponseBody:
+      type: object
+      properties:
+        topic:
+          type: string
+          readOnly: true
+        originator:
+          type: string
+          readOnly: true
+        timestamp:
+          type: string
+          format: date
+          readOnly: true
+        mime-type:
+          type: string
+          readOnly: true
+        payload:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        

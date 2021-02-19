@@ -70,7 +70,10 @@ The following parameters can be set in config files or in env variables:
     npm start
     ```
 
-6. You can run `npm run send-event` to send a sample event to the `READ_TOPIC` topic using the script in `src/scripts/send-event.js`. Feel free to play around with the data in that script for testing.
+6. You can run `npm run send-event` to send a sample event to the `READ_TOPIC` topic using the script in `src/scripts/send-event.js`.
+
+
+Feel free to play around with the data in that script for testing or you can use the swagger `docs/swagger.yaml` for the list of services exposed
 
 ### Local Deployment with Docker
 

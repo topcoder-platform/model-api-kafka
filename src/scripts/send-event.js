@@ -29,7 +29,7 @@ async function sendEvent (topic, payload) {
  * The main function
  */
 async function main () {
-  await sendEvent(config.READ_TOPIC, { firstName: 'John', lastName: 'Doe', handle: 'jdoe' })
+  await sendEvent(config.READ_TOPIC, { name: 'Publish Event Name', description: 'This is event to publish event via TC Bus API' })
   logger.info('Done!')
   process.exit()
 }
