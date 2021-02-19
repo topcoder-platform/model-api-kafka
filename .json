@@ -1,1 +1,0 @@
-{"topic":"test.new.bus.events","originator":"model-api-kafka","timestamp":"2021-02-19T08:36:00.027Z","mime-type":"application/json","payload":{"name":"Publish Event Name","description":"This is event to publish event via TC Bus API"}}
