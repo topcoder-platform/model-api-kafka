@@ -7,7 +7,9 @@
     "start": "node src/app.js",
     "lint": "standard .",
     "lint:fix": "standard --fix",
-    "send-event": "node src/scripts/send-event.js"
+    "send-event": "node src/scripts/send-event.js",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "devDependencies": {
     "standard": "^12.0.1"
@@ -16,15 +18,17 @@
     "@hapi/joi": "^15.1.0",
     "bluebird": "^3.5.5",
     "get-parameter-names": "^0.3.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "no-kafka": "^3.4.3",
     "winston": "^3.2.1",
     "body-parser": "^1.19.0",
     "config": "^3.3.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "@snyk/protect": "latest"
   },
   "engines": {
     "node": "12.x"
-  }
+  },
+  "snyk": true
 }
